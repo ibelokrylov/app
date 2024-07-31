@@ -44,6 +44,7 @@ jobs:
 
       - name: install pnpm
         run: npm i -g pnpm
+
       - name: install frontend dependencies
         run: pnpm install
 
@@ -72,3 +73,11 @@ jobs:
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: |
+            src-tauri/target/release/bundle/msi/*
+            src-tauri/target/release/bundle/nsis/*
