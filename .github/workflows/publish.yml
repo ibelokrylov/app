@@ -17,9 +17,9 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 'lts'  # Используйте LTS версию Node.js
 
       - name: install Rust stable
         uses: actions-rs/toolchain@v1
