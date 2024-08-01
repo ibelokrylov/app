@@ -22,19 +22,6 @@ type User = {
   is_active: boolean;
 };
 
-const initialChangeUser: User = {
-  name: '',
-  phone: '',
-  rank: '',
-  password: '',
-  username: '',
-  role: 'user',
-  equipment_list: { equipment: [] },
-  id: '',
-  is_active: true,
-  cabinet_number: '',
-};
-
 export const Route = createLazyFileRoute('/users/$id')({
   component: UserPage,
 });
@@ -156,7 +143,7 @@ function UserPage() {
       });
       navigate({ to: '/users' });
     }
-  }
+  };
 
   useEffect(() => {
     if (!equipmentList) {
@@ -284,7 +271,12 @@ function UserPage() {
             </div>
           </div>
           <div>
-            <Button onClick={deleteUser} colorScheme={'red'}>Удалить</Button>
+            <Button
+              onClick={deleteUser}
+              colorScheme={'red'}
+            >
+              Удалить
+            </Button>
           </div>
         </div>
       ) : (
