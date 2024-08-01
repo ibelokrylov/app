@@ -36,9 +36,14 @@ function ProfileLazy() {
     <div className={'flex flex-col gap-4 py-4 w-full'}>
       <h1 className={'text-2xl text-center'}>Профиль</h1>
       <Divider />
-      <div>Логин: {user.data?.username}</div>
+      <div>
+        Логин: <Tag>{user.data?.username}</Tag>
+      </div>
       <div>Имя: {user.data?.name}</div>
       <div>Должность: {user.data?.rank}</div>
+      <div>
+        Кабинет: <Tag>{user.data?.cabinet_number}</Tag>
+      </div>
       <div>Телефон: {user.data?.phone}</div>
       <div>
         Статус: <Tag colorScheme={user.data?.is_active ? 'cyan' : 'red'}>{user.data?.is_active ? 'Активен' : 'Не активен'}</Tag>
