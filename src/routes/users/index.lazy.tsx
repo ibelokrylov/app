@@ -65,6 +65,7 @@ function Users() {
                   <div>Логин: {user.username}</div>
                   <div>Доступы: {user.role}</div>
                   <div>Должность: {user.rank}</div>
+                  <div>Кабинет: {user.cabinet_number}</div>
                   <div>Имя: {user.name}</div>
                   <div>Телефон: {user.phone}</div>
                 </div>

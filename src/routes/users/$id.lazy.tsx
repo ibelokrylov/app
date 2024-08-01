@@ -13,6 +13,7 @@ type User = {
   rank: string;
   username: string;
   password: string;
+  cabinet_number: string;
   equipment_list: {
     equipment: string[];
   };
@@ -31,6 +32,7 @@ const initialChangeUser: User = {
   equipment_list: { equipment: [] },
   id: '',
   is_active: true,
+  cabinet_number: '',
 };
 
 export const Route = createLazyFileRoute('/users/$id')({
@@ -52,7 +54,7 @@ function UserPage() {
 
   const user = users?.find((user) => user.id === id);
   const [load, setLoad] = useState<boolean>(false);
-  const [_user, setUser] = useState<User>(({ ...user, password: '' } as User) ?? (initialChangeUser as User));
+  const [_user, setUser] = useState<User>({ ...user, password: '' } as User);
   const [change, setChange] = useState(false);
 
   const toast = useToast();
@@ -82,6 +84,7 @@ function UserPage() {
       equipment: _user.equipment_list?.equipment,
       password: _user.password,
       is_active: _user.is_active,
+      cabinet_number: _user.cabinet_number,
     };
     if (!_user.name.trim() || !_user.phone.trim() || !_user.rank.trim() || !_user.username.trim()) {
       toast({
@@ -140,6 +143,21 @@ function UserPage() {
     }
   };
 
+  const deleteUser = async () => {
+    const { error } = await http({ url: `/v1/admin/delete/user/`, method: 'POST', body: { id: _user.id } });
+    if (!error) {
+      const new_users = users?.filter((u) => u.id !== _user.id);
+      setUsers(new_users as UserData[]);
+      toast({
+        title: 'Пользователь удален',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+      navigate({ to: '/users' });
+    }
+  }
+
   useEffect(() => {
     if (!equipmentList) {
       getEq();
@@ -175,6 +193,15 @@ function UserPage() {
             <Input
               id={'rank'}
               value={_user.rank}
+              name={'rank'}
+              onChange={(e) => setUser({ ..._user, rank: e.target.value })}
+            />
+          </div>
+          <div className={'flex flex-col gap-1'}>
+            <label htmlFor={'rank'}>Кабинет:</label>
+            <Input
+              id={'rank'}
+              value={_user.cabinet_number}
               name={'rank'}
               onChange={(e) => setUser({ ..._user, rank: e.target.value })}
             />
@@ -216,19 +243,21 @@ function UserPage() {
           <div className={'flex flex-col gap-3'}>
             <label htmlFor={'equipment'}>Оборудование:</label>
             <div className={'flex gap-3 flex-wrap'}>
-              {equipmentList?.filter((eq) => eq.is_active)?.map((eq) => {
-                return (
-                  <div key={eq.id}>
-                    <Checkbox
-                      isDisabled={load}
-                      onChange={(e) => addOrRemoveEquipment(eq.id, e)}
-                      isChecked={_user?.equipment_list?.equipment?.includes(eq.id)}
-                    >
-                      {eq.name}
-                    </Checkbox>
-                  </div>
-                );
-              })}
+              {equipmentList
+                ?.filter((eq) => eq.is_active)
+                ?.map((eq) => {
+                  return (
+                    <div key={eq.id}>
+                      <Checkbox
+                        isDisabled={load}
+                        onChange={(e) => addOrRemoveEquipment(eq.id, e)}
+                        isChecked={_user?.equipment_list?.equipment?.includes(eq.id)}
+                      >
+                        {eq.name}
+                      </Checkbox>
+                    </div>
+                  );
+                })}
             </div>
           </div>
           <div className={'flex flex-col gap-1'}>
@@ -253,6 +282,9 @@ function UserPage() {
             <div>
               <Button onClick={() => setChange(false)}>Назад</Button>
             </div>
+          </div>
+          <div>
+            <Button onClick={deleteUser} colorScheme={'red'}>Удалить</Button>
           </div>
         </div>
       ) : (

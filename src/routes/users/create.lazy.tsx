@@ -17,6 +17,7 @@ type User = {
   password: string;
   password_confirm: string;
   equipment: string[];
+  cabinet_number: string;
   role: 'user' | 'admin' | 'superadmin';
 };
 
@@ -27,6 +28,7 @@ const initialState: User = {
   name: '',
   phone: '',
   rank: '',
+  cabinet_number: '',
   equipment: [],
   role: 'user',
 };
@@ -35,6 +37,7 @@ const labels = {
   name: 'Имя:',
   phone: 'Телефон:',
   rank: 'Должность:',
+  cabinet_number: 'Кабинет:',
   username: 'Логин:',
   password: 'Пароль:',
   password_confirm: 'Подтвердите пароль:',

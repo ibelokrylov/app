@@ -44,6 +44,30 @@ function EquipmentsPostId() {
 
   const toast = useToast();
 
+  const onDelete = async () => {
+    if (!eq) {
+      return;
+    }
+    const { error } = await http({
+      url: `/v1/admin/delete/equipment/`,
+      method: 'POST',
+      body: {
+        id: eq.id,
+      },
+    });
+    if (!error) {
+      const newEQ = [...(equipmentList ?? [])].filter((item) => item.id !== eq.id);
+      setEquipmentList(newEQ);
+    } else {
+      toast({
+        title: 'Не удалось удалить оборудование',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
   const onSendToServerAndValidate = async () => {
     if (!eq) {
       return;
@@ -129,6 +153,12 @@ function EquipmentsPostId() {
                 Отменить
               </Button>
             </div>
+          </div>
+          <div
+            onClick={onDelete}
+            className={'mt-10'}
+          >
+            <Button colorScheme={'red'}>Удалить</Button>
           </div>
         </div>
       ) : (

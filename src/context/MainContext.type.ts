@@ -11,6 +11,7 @@ export type UserData = {
   phone: string;
   rank: string;
   is_active: boolean;
+  cabinet_number: string;
   role: 'user' | 'admin' | 'superadmin';
   equipment_list?: {
     id: string;
