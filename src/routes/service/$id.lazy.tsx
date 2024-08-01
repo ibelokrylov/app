@@ -216,6 +216,7 @@ function Service() {
                 <Divider />
                 <div>Пользователь: {serviceData[key]?.name}</div>
                 <div>Должность: {serviceData[key]?.rank}</div>
+                <div>Кабинет: {serviceData[key]?.cabinet_number}</div>
                 <div>Телефон: {serviceData[key]?.phone}</div>
               </div>
             );
