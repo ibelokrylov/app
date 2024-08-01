@@ -190,7 +190,7 @@ function UserPage() {
               id={'rank'}
               value={_user.cabinet_number}
               name={'rank'}
-              onChange={(e) => setUser({ ..._user, rank: e.target.value })}
+              onChange={(e) => setUser({ ..._user, initialChangeUser: e.target.value })}
             />
           </div>
           <div className={'flex flex-col gap-1'}>
